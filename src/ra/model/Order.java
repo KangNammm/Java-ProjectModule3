@@ -5,17 +5,27 @@ import java.util.List;
 import java.util.StringJoiner;
 
 public class Order implements Serializable {
+    private int id;
     private User orderUser;
     private List<CartItem> oderCart;
-    private String oderStatus;
+    private boolean oderStatus = false;
 
     public Order() {
     }
 
-    public Order(User orderUser, List<CartItem> oderCart, String oderStatus) {
+    public Order(int id, User orderUser, List<CartItem> oderCart, boolean oderStatus) {
+        this.id = id;
         this.orderUser = orderUser;
         this.oderCart = oderCart;
         this.oderStatus = oderStatus;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public User getOrderUser() {
@@ -34,23 +44,22 @@ public class Order implements Serializable {
         this.oderCart = oderCart;
     }
 
-    public String getOderStatus() {
+    public boolean isOderStatus() {
         return oderStatus;
     }
 
-    public void setOderStatus(String oderStatus) {
+    public void setOderStatus(boolean oderStatus) {
         this.oderStatus = oderStatus;
     }
 
 
-
     @Override
     public String toString() {
-        return new StringJoiner(", ", Order.class.getSimpleName() + "[", "]")
-                .add("oderUser=" + orderUser)
-                .add("oderCart=" + oderCart)
-                .add("oderStatus='" + oderStatus + "'")
-                .toString();
+        return "Order{" +
+                "orderUser=" + orderUser +
+                ", oderCart=" + oderCart +
+                ", oderStatus='" + oderStatus + '\'' +
+                '}';
     }
 }
 

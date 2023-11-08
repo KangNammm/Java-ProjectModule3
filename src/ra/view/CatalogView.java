@@ -47,7 +47,7 @@ public class CatalogView {
         System.out.println("Nhập id bạn muốn cập nhật: ");
         int id = Config.validateInt();
         if (catacontroller.findById(id) == null) {
-            System.out.println("Id không thể tìm thấy");
+            System.out.println("\033[0;31mId không tồn tại!\033[0;0m");
         } else {
             System.out.println("Nhập tên danh mục sản phẩm bạn muốn sửa: ");
             String nameUp = Config.scanner().nextLine();

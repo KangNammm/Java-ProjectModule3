@@ -2,8 +2,6 @@ package ra.service.order;
 
 import ra.config.Config;
 import ra.model.Order;
-import ra.model.User;
-import ra.service.catalog.ICataService;
 
 import java.util.List;
 
@@ -46,4 +44,20 @@ public class OrderserviceIMPL implements IOrderService {
     public boolean changeUserStatus(int id) {
         return false;
     }
+
+    public boolean confirmOder(int id) {
+        if (findById(id) == null){
+            return false;
+        } else {
+            for (Order order : orderList) {
+                if (order.getId() == id){
+                    order.setOderStatus(!order.isOderStatus());
+                    new Config<Order>().writeToFile(Config.PATH_ODER,orderList);
+                    break;
+                }
+            }
+        }
+        return false;
+    }
+
 }

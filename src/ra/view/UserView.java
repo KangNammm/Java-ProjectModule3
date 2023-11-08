@@ -239,7 +239,7 @@ public class UserView {
 
     public boolean checkCartItemExits(List<CartItem> cart,int idCartItem) {
         for (CartItem item : cart) {
-            if (item.getId() == idCartItem){
+            if (item.getProduct().getProductId() == idCartItem){
                 return true;
             }
         }
@@ -256,6 +256,7 @@ public class UserView {
         new ProductView().showProduct();
         switch (choice){
             case 1:
+
                 System.out.println("Nhập id sản phẩm:");
                 int id = Config.validateInt();
                 if(productcontroller.findById(id) == null){
@@ -266,17 +267,16 @@ public class UserView {
                     int quantity;
                     while (true){
                         quantity = Config.validateInt();
-                        if (quantity > product.getStock()){
-                            System.out.println("\033[0;31mSố lượng vượt quá số lượng trong kho, vui lòng nhập lại!!!!\033[0;0m");
+                        if (quantity > product.getStock() || !product.getProductStatus()){
+                            System.out.println("\033[0;31mSố lượng vượt quá số lượng trong kho hoặc không có trong danh sách, vui lòng nhập lại!!!!\033[0;0m");
                         } else {
                             break;
                         }
                     }
-                    int idNew = (listCart == null)? 1 : (listCart.get(listCart.size()-1).getId()+1);
+                    int idNew = (listCart.isEmpty())? 1 : (listCart.get(listCart.size()-1).getId()+1);
                     CartItem newCartItem = new CartItem(idNew,product,quantity);
-                    if (listCart == null){
+                    if (listCart.isEmpty()){
                         // giò hàng trống
-                        listCart = new ArrayList<>();
                         listCart.add(newCartItem);
                     }else {
                         if (checkCartItemExits(listCart,id)){
@@ -291,7 +291,6 @@ public class UserView {
 //                    sản phâm ko bị trùng
                             listCart.add(newCartItem);
                         }
-
                     }
                     System.out.println("\033[0;33mThêm vào giỏ thành công!!!\033[0;0m");
                     user.setCart(listCart);
@@ -299,19 +298,19 @@ public class UserView {
                 }
                 break;
             case 2:
-                System.out.println(userService.findById(userLogin.getId()));
                 System.out.println("                                                                            \u001B[33mGiỏ Hàng Của Bạn");
                 System.out.format("                                               +---------+-----------------+-----------------+-----------------+----------+%n");
-                System.out.format("                                               |    ID   |  Tên danh mục   |   Tên Sản Phẩm  |   Giá tiền      | Số lượng |%n");
+                System.out.format("                                               |    ID   |  Tên Sản phẩm   |   Tên danh mục  |   Giá tiền      | Số lượng |%n");
                 System.out.format("                                               +---------+-----------------+-----------------+-----------------+----------+%n");
                 String leftAlignFormat = "                                               | %-7d | %-15s | %-15s | %-15s |  %-6s  |%n";
                 double total = 0;
 
                 for (CartItem cartItem:user.getCart()){
-                    System.out.format(leftAlignFormat,cartItem.getId(),cartItem.getProduct().getProductCatalog().getName(),cartItem.getProduct().getProductName(),Config.formatMoney.format(cartItem.getProduct().getProductPrice()),cartItem.getQuantity());
+                    System.out.format(leftAlignFormat,cartItem.getId(),cartItem.getProduct().getProductName(),cartItem.getProduct().getProductCatalog().getName(),Config.formatMoney.format(cartItem.getProduct().getProductPrice()),cartItem.getQuantity());
                     total += cartItem.getProduct().getProductPrice()*cartItem.getQuantity();
 //            System.out.println(cartItem);
                 }
+
                 System.out.format("                                               +---------+-----------------+-----------------+-----------------+----------+%n");
                 System.out.println("                                                                 \u001B[35mTổng giá trị đơn hàng của bạn là: \u001B[31m" + Config.formatMoney.format(total )+ "\u001B[0m");
                 System.out.println();

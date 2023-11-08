@@ -33,4 +33,8 @@ public class OrderControllerIMPL implements IOrderController {
         return null;
     }
 
+    public boolean confirmOrder(int id) {
+        iOrderService.confirmOder(id);
+        return false;
+    }
 }

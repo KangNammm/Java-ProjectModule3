@@ -124,10 +124,14 @@ public class UserServiceIMPL implements IUserService{
 
     @Override
     public void paying(User userLogin) {
-        orderservice.save(new Order(userLogin, userLogin.getCart(), "Chưa thanh toán"));
+        User user = findById(userLogin.getId());
+        List<Order> listOrder = orderservice.findAll();
+        int id = (listOrder.isEmpty())? 1 : (listOrder.get(listOrder.size()-1).getId()+1);
+        orderservice.save(new Order(id,user, user.getCart(), false));
+        user.setCart(new ArrayList<>());
         userLogin.setCart(new ArrayList<>());
-        System.out.println("\033[0;33m                                                            Đặt hàng thành công.                                        \033[0;33m");
-        save(userLogin);
+        System.out.println("\033[0;33m                                                                          Đặt hàng thành công.                                        \033[0;33m");
+        save(user);
     }
 
 }

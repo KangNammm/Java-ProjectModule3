@@ -1,11 +1,14 @@
 package ra.model;
 
+import ra.config.Config;
+
 import java.io.Serializable;
 
 public class CartItem implements Serializable {
     private int id;
     private Product product;
     private int quantity;
+    private double total = 0;
 
     public CartItem() {
     }
@@ -40,15 +43,16 @@ public class CartItem implements Serializable {
         this.quantity = quantity;
     }
 
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
     @Override
     public String toString() {
-//        return "CartItem{" +
-//                "id=" + id +
-//                ", product=" + product +
-//                ", quantity=" + quantity +
-//                '}';
-
-        return quantity+" Cái "+product;
-
+        return String.valueOf(total += product.getProductPrice()*quantity);
     }
 }
