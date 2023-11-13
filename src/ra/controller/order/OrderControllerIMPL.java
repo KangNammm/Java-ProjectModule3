@@ -20,7 +20,7 @@ public class OrderControllerIMPL implements IOrderController {
     }
 
     public Order findById(int id){
-        return (Order) iOrderService.findById(id);
+        return iOrderService.findById(id);
     }
 
     @Override

@@ -23,7 +23,7 @@ public class OrderserviceIMPL implements IOrderService {
     @Override
     public Order findById(int id) {
         for (Order oder : orderList) {
-            if (oder.getOrderUser().getId() == id) {
+            if (oder.getId() == id) {
                 return oder;
             }
         }

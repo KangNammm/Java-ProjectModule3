@@ -32,11 +32,11 @@ public class Config<T> {
             fileInputStream.close();
             objectInputStream.close();
         } catch (FileNotFoundException f){
-            System.err.println("File not found!");
+            System.err.println("Không tìm thấy file!");
         } catch (IOException i){
-            System.err.println("IOE exception!");
+            System.err.println("Ngoại lệ!");
         } catch (ClassNotFoundException c){
-            System.err.println("Class Not Found");
+            System.err.println("Không tìm thấy lớp!");
         }
         return tList;
     }
@@ -49,9 +49,9 @@ public class Config<T> {
             fileOutputStream.close();
             objectOutputStream.close();
         } catch (FileNotFoundException f){
-            System.err.println("File Not Found!");
+            System.err.println("Không tìm thấy file!");
         } catch (IOException i){
-            System.err.println("IOE Exception!");
+            System.err.println("Ngoại lệ!");
         }
     }
     // validate int

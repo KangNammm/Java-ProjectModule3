@@ -51,7 +51,7 @@ public class UserController {
         return userService.findAll();
     }
 
-        public ResponseMessage login(SignInDTO signInDTO){
+    public ResponseMessage login(SignInDTO signInDTO){
         if(userService.checkLogin(signInDTO.getUsername(), signInDTO.getPassword())){
             return new ResponseMessage("login_success");
         } else {

@@ -282,7 +282,7 @@ public class UserView {
                         if (checkCartItemExits(listCart,id)){
 //                    sản phẩm trùng
                             for (CartItem item: listCart) {
-                                if (item.getProduct().getProductId()==id){
+                                if (item.getProduct().getProductId() == id){
                                     item.setQuantity(item.getQuantity()+quantity);
                                     break;
                                 }
@@ -326,7 +326,7 @@ public class UserView {
         int idCartItem = Config.validateInt();
         if (checkCartItemExits(cart,idCartItem)){
             for (CartItem item : cart) {
-                if (item.getId()==idCartItem){
+                if (item.getProduct().getProductId() == idCartItem){
                     System.out.println("Nhập số lượng mới , số lượng cũ là: "+item.getQuantity());
                     int checkQuantity;
                     while (true){
@@ -408,10 +408,22 @@ public class UserView {
             System.out.println("\033[0;33mCập nhật mật khẩu thành công!!!\033[0;0m");
             break;
         }
-        }
+    }
 
     public void payingCart(){
+        User user = userController.findById(userLogin.getId());
+        List<CartItem> cart = user.getCart();
+        for (CartItem item : cart) {
+            Product product = productcontroller.findById(item.getProduct().getProductId());
+            if (item.getQuantity() > product.getStock()){
+                System.out.println("\033[0;31mSố lượng vượt quá số lượng trong kho!!!!\033[0;0m");
+                return;
+            }
+            product.setStock(product.getStock() - item.getQuantity());
+            productcontroller.save(product);
+        }
         userController.paying(userLogin);
+
     }
 
 
